@@ -1,22 +1,41 @@
-#ifndef __RBUFFER_H
-#define __RBUFFER_H
+#include "ring_buffer.h"
 
-#if (USE_XSTREAM_BUFFER == 1)
-    #include "xstream_buffer.h"
-#elif(USE_CLASSIC_FIFO_BUFFER == 1)
-    #include "ring_buffer.h"
+
+#define USE_XSTREAM_BUFFER 1
+#define USE_CLASSIC_FIFO_BUFFER 0
+
+#if(USE_XSTREAM_BUFFER == 1)
+
+#include "xstream_buffer.h"
+
+#define rbuffer xstream_buffer
+#define rbuffer_create xstream_buffer_create
+#define rbuffer_clear xstream_buffer_clear
+#define rbuffer_push xstream_buffer_push
+#define rbuffer_pop xstream_buffer_pop
+#define rbuffer_push_isr xstream_buffer_push_isr
+#define rbuffer_pop_isr xstream_buffer_pop_isr
+#define rbuffer_data_available xstream_buffer_data_available
+#define rbuffer_free_space_available xstream_buffer_free_space_available
+#define rbuffer_is_full xstream_buffer_is_full
+#define rbuffer_is_empty xstream_buffer_is_empty
+#endif
+
+#if(USE_CLASSIC_FIFO_BUFFER == 1)
+
+#include "ring_buffer.h"
+
+#define rbuffer ring_buffer
+#define rbuffer_create ring_buffer_create
+#define rbuffer_clear ring_buffer_clear
+#define rbuffer_push ring_buffer_push
+#define rbuffer_pop ring_buffer_pop
+#define rbuffer_push_isr ring_buffer_push_isr
+#define rbuffer_pop_isr ring_buffer_pop_isr
+#define rbuffer_data_available ring_buffer_data_available
+#define rbuffer_free_space_available ring_buffer_free_space_available
+#define rbuffer_is_full ring_buffer_is_full
+#define rbuffer_is_empty ring_buffer_is_empty
 #endif
 
 
-void rbuffer_create(struct rbuffer* buffer, uint8_t* memory, size_t size);
-void rbuffer_clear(struct rbuffer *buffer);
-size_t rbuffer_push(struct rbuffer* buffer, uint8_t* data, size_t size);
-size_t rbuffer_pop(struct rbuffer* buffer, uint8_t* data, size_t size);
-size_t rbuffer_push_isr(struct rbuffer *buffer, uint8_t *data, size_t size);
-size_t rbuffer_pop_isr(struct rbuffer *buffer, uint8_t *data, size_t size);
-size_t rbuffer_data_available(struct rbuffer *buffer);
-size_t rbuffer_free_space_available(struct rbuffer *buffer);
-bool rbuffer_is_full(struct rbuffer *buffer);
-bool rbuffer_is_empty(struct rbuffer *buffer);
-
-#endif
