@@ -1,6 +1,6 @@
 #include <string.h>
 #include "ring_buffer.h"
-
+#include "rbuffer.h"
 
 void ring_buffer_create(ring_buffer *buffer, uint8_t *memory, size_t size) {
     buffer->mem = buffer->head = buffer->tail = memory;
@@ -65,16 +65,16 @@ size_t ring_buffer_pop(ring_buffer *buffer, uint8_t *data, size_t size) {
 }
 
 size_t ring_buffer_push_isr(ring_buffer *buffer, uint8_t *data, size_t size) {
-    __disable_irq();
+    enter_critical_section();
     size_t push = ring_buffer_push(buffer, data, size);
-    __enable_irq();
+    exit_critical_section();
     return push;
 }
 
 size_t ring_buffer_pop_isr(ring_buffer *buffer, uint8_t *data, size_t size) {
-    __disable_irq();
+    enter_critical_section();
     size_t pop = ring_buffer_pop(buffer, data, size);
-    __enable_irq();
+    exit_critical_section();
     return pop;
 }
 
@@ -88,13 +88,10 @@ size_t ring_buffer_free_space_available(ring_buffer *buffer) {
 
 bool ring_buffer_is_full(ring_buffer *buffer) {
     return buffer->available == 0;
-
 }
 
 bool ring_buffer_is_empty(ring_buffer *buffer) {
     return buffer->available == buffer->size;
 }
-
-
 
 

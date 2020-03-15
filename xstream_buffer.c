@@ -1,6 +1,6 @@
 #include "xstream_buffer.h"
 #include "stream_buffer.h"
-#include <string.h>
+
 
 
 void xstream_buffer_create(xstream_buffer *buffer, uint8_t *memory, size_t size) {

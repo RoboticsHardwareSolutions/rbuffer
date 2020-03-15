@@ -2,6 +2,7 @@
 #define __XSTREAM_BUFFER_H
 
 #include "stdbool.h"
+#include <string.h>
 #include "FreeRTOS.h"
 #include "stream_buffer.h"
 
