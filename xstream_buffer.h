@@ -1,11 +1,13 @@
 #ifndef __XSTREAM_BUFFER_H
 #define __XSTREAM_BUFFER_H
 
+
+#if defined(RBUFFER_USE_XSTREAM_BUFFER)
+
 #include "stdbool.h"
 #include <string.h>
 #include "FreeRTOS.h"
 #include "stream_buffer.h"
-
 
 typedef struct {
     StaticStreamBuffer_t xstream;
@@ -33,3 +35,6 @@ bool xstream_buffer_is_full(xstream_buffer *buffer);
 bool xstream_buffer_is_empty(xstream_buffer *buffer);
 
 #endif
+
+#endif
+

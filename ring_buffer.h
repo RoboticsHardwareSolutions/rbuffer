@@ -1,10 +1,12 @@
 #ifndef __RING_BUFFER_H
 #define __RING_BUFFER_H
 
+
+#if defined(RBUFFER_USE_CLASSIC_FIFO_BUFFER)
+
 #include <stdint.h>
 #include "string.h"
 #include "stdbool.h"
-
 
 typedef struct {
     uint8_t *mem;
@@ -33,6 +35,8 @@ size_t ring_buffer_free_space_available(ring_buffer *buffer);
 bool ring_buffer_is_full(ring_buffer *buffer);
 
 bool ring_buffer_is_empty(ring_buffer *buffer);
+
+#endif
 
 #endif
 

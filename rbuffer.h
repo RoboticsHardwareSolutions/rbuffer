@@ -20,7 +20,9 @@
 /**
  *  Include here __disable_irq __enable_irq header
  *  typical main.h in STM32 proj
+ *
  */
+#include "main.h"
 
 static inline void enter_critical_section(void) {
     /**

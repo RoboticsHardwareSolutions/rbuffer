@@ -1,6 +1,9 @@
+#if defined(RBUFFER_USE_CLASSIC_FIFO_BUFFER)
+
 #include <string.h>
 #include "ring_buffer.h"
 #include "rbuffer.h"
+
 
 void ring_buffer_create(ring_buffer *buffer, uint8_t *memory, size_t size) {
     buffer->mem = buffer->head = buffer->tail = memory;
@@ -94,4 +97,5 @@ bool ring_buffer_is_empty(ring_buffer *buffer) {
     return buffer->available == buffer->size;
 }
 
+#endif
 

@@ -1,7 +1,7 @@
+#if defined(RBUFFER_USE_XSTREAM_BUFFER)
+
 #include "xstream_buffer.h"
 #include "stream_buffer.h"
-
-
 
 void xstream_buffer_create(xstream_buffer *buffer, uint8_t *memory, size_t size) {
     buffer->handle = xStreamBufferCreateStatic(size, 1, memory, &buffer->xstream);
@@ -44,4 +44,4 @@ bool xstream_buffer_is_empty(xstream_buffer *buffer) {
 }
 
 
-
+#endif
