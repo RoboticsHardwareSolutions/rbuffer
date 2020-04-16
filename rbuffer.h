@@ -14,7 +14,6 @@
  *
  */
 
-//TODO add all functions with arg in h
 
 #ifdef RBUFFER_USE_CLASSIC_FIFO_BUFFER
 /**
