@@ -36,11 +36,11 @@ size_t xstream_buffer_free_space_available(xstream_buffer *buffer) {
 }
 
 bool xstream_buffer_is_full(xstream_buffer *buffer) {
-    return xStreamBufferIsFull(buffer->handle);
+    return xStreamBufferIsFull(buffer->handle) == pdTRUE;
 }
 
 bool xstream_buffer_is_empty(xstream_buffer *buffer) {
-    return xStreamBufferIsEmpty(buffer->handle);
+    return xStreamBufferIsEmpty(buffer->handle) == pdTRUE;
 }
 
 
