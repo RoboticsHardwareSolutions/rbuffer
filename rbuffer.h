@@ -1,6 +1,15 @@
 #ifndef  __RBUFFER_H
 #define  __RBUFFER_H
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include <stdint.h>
+#include "string.h"
+#include "stdbool.h"
+
 /**
  * For using ring buffer add to CMakeLists.txt
  *
@@ -14,8 +23,8 @@
  *
  */
 
+#if defined(RBUFFER_USE_CLASSIC_FIFO_BUFFER)
 
-#ifdef RBUFFER_USE_CLASSIC_FIFO_BUFFER
 /**
  *  Include here __disable_irq __enable_irq header
  *  typical main.h in STM32 proj
@@ -39,43 +48,51 @@ static inline void exit_critical_section(void) {
     __enable_irq();
 }
 
-#endif
+typedef struct {
+    uint8_t *mem;
+    uint8_t *head;
+    uint8_t *tail;
+    size_t size;
+    size_t available;
+} rbuffer;
 
-#ifdef RBUFFER_USE_XSTREAM_BUFFER
+#elif defined(RBUFFER_USE_XSTREAM_BUFFER)
 
-#include "xstream_buffer.h"
-
-#define rbuffer xstream_buffer
-#define rbuffer_create xstream_buffer_create
-#define rbuffer_clear xstream_buffer_clear
-#define rbuffer_push xstream_buffer_pushd
-#define rbuffer_pop xstream_buffer_pop
-#define rbuffer_push_isr xstream_buffer_push_isr
-#define rbuffer_pop_isr xstream_buffer_pop_isr
-#define rbuffer_data_available xstream_buffer_data_available
-#define rbuffer_free_space_available xstream_buffer_free_space_available
-#define rbuffer_is_full xstream_buffer_is_full
-#define rbuffer_is_empty xstream_buffer_is_empty
-#endif
+#include "FreeRTOS.h"
+#include "stream_buffer.h"
 
 
-#ifdef RBUFFER_USE_CLASSIC_FIFO_BUFFER
-
-#include "ring_buffer.h"
-
-#define rbuffer ring_buffer
-#define rbuffer_create ring_buffer_create
-#define rbuffer_clear ring_buffer_clear
-#define rbuffer_push ring_buffer_push
-#define rbuffer_pop ring_buffer_pop
-#define rbuffer_push_isr ring_buffer_push_isr
-#define rbuffer_pop_isr ring_buffer_pop_isr
-#define rbuffer_data_available ring_buffer_data_available
-#define rbuffer_free_space_available ring_buffer_free_space_available
-#define rbuffer_is_full ring_buffer_is_full
-#define rbuffer_is_empty ring_buffer_is_empty
-#endif
-
+typedef struct {
+    StaticStreamBuffer_t xstream;
+    StreamBufferHandle_t handle;
+} rbuffer;
 
 #endif
 
+
+void rbuffer_create(rbuffer *buffer, uint8_t *memory, size_t size);
+
+void rbuffer_clear(rbuffer *buffer);
+
+size_t rbuffer_push(rbuffer *buffer, uint8_t *data, size_t size);
+
+size_t rbuffer_pop(rbuffer *buffer, uint8_t *data, size_t size);
+
+size_t rbuffer_push_isr(rbuffer *buffer, uint8_t *data, size_t size);
+
+size_t rbuffer_pop_isr(rbuffer *buffer, uint8_t *data, size_t size);
+
+size_t rbuffer_data_available(rbuffer *buffer);
+
+size_t rbuffer_free_space_available(rbuffer *buffer);
+
+bool rbuffer_is_full(rbuffer *buffer);
+
+bool rbuffer_is_empty(rbuffer *buffer);
+
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif
