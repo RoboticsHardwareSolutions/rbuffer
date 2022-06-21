@@ -2,6 +2,14 @@
 
 simple buffer wrapper 
 
+```
+include(rbuffer/rbuffer.cmake)
+
+include_directories( ... ${RBUFFER_DIRECTORIES})
+
+add_executable(... ${RBUFFER_EXECUTABLE_FILES})
+
+```
 include two type realization for using with freertos and classic fifo
  
 WARIMING using static memory !
