@@ -1,6 +1,5 @@
-#ifndef  __RBUFFER_H
-#define  __RBUFFER_H
-
+#ifndef __RBUFFER_H
+#define __RBUFFER_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -31,65 +30,63 @@ extern "C" {
  *
  */
 
-
-static inline void enter_critical_section(void) {
+static inline void enter_critical_section(void)
+{
     /**
      * add funtion which disable irq
      * typical  __disable_irq();
      */
-
 }
 
-static inline void exit_critical_section(void) {
+static inline void exit_critical_section(void)
+{
     /**
      * add funtion which enable irq
      * typical __enable_irq();
      */
-
 }
 
-typedef struct {
-    uint8_t *mem;
-    uint8_t *head;
-    uint8_t *tail;
-    size_t size;
-    size_t available;
+typedef struct
+{
+    uint8_t* mem;
+    uint8_t* head;
+    uint8_t* tail;
+    size_t   size;
+    size_t   available;
 } rbuffer;
 
 #elif defined(RBUFFER_USE_XSTREAM_BUFFER)
 
-#include "FreeRTOS.h"
-#include "stream_buffer.h"
+#    include "FreeRTOS.h"
+#    include "stream_buffer.h"
 
-
-typedef struct {
+typedef struct
+{
     StaticStreamBuffer_t xstream;
     StreamBufferHandle_t handle;
 } rbuffer;
 
 #endif
 
+void rbuffer_create(rbuffer* buffer, uint8_t* memory, size_t size);
 
-void rbuffer_create(rbuffer *buffer, uint8_t *memory, size_t size);
+void rbuffer_clear(rbuffer* buffer);
 
-void rbuffer_clear(rbuffer *buffer);
+size_t rbuffer_push(rbuffer* buffer, uint8_t* data, size_t size);
 
-size_t rbuffer_push(rbuffer *buffer, uint8_t *data, size_t size);
+size_t rbuffer_pop(rbuffer* buffer, uint8_t* data, size_t size);
 
-size_t rbuffer_pop(rbuffer *buffer, uint8_t *data, size_t size);
+size_t rbuffer_push_isr(rbuffer* buffer, uint8_t* data, size_t size);
 
-size_t rbuffer_push_isr(rbuffer *buffer, uint8_t *data, size_t size);
+size_t rbuffer_pop_isr(rbuffer* buffer, uint8_t* data, size_t size);
 
-size_t rbuffer_pop_isr(rbuffer *buffer, uint8_t *data, size_t size);
+size_t rbuffer_data_available(rbuffer* buffer);
 
-size_t rbuffer_data_available(rbuffer *buffer);
+size_t rbuffer_free_space_available(rbuffer* buffer);
 
-size_t rbuffer_free_space_available(rbuffer *buffer);
+bool rbuffer_is_full(rbuffer* buffer);
 
-bool rbuffer_is_full(rbuffer *buffer);
-
-bool rbuffer_is_empty(rbuffer *buffer);
-
+bool rbuffer_is_empty(rbuffer* buffer);
 
 #ifdef __cplusplus
 }
