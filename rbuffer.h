@@ -30,14 +30,14 @@ extern "C" {
  *  typical main.h in STM32 proj
  *
  */
-#include "main.h"
+// #include "main.h"
 
 static inline void enter_critical_section(void) {
     /**
      * add funtion which disable irq
      * typical  __disable_irq();
      */
-    __disable_irq();
+    // __disable_irq();
 }
 
 static inline void exit_critical_section(void) {
@@ -45,7 +45,7 @@ static inline void exit_critical_section(void) {
      * add funtion which enable irq
      * typical __enable_irq();
      */
-    __enable_irq();
+    // __enable_irq();
 }
 
 typedef struct {

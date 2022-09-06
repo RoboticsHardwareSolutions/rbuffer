@@ -132,11 +132,11 @@ size_t rbuffer_free_space_available(rbuffer *buffer) {
 }
 
 bool rbuffer_is_full(rbuffer *buffer) {
-    return buffer->available == 0;
+    return buffer->available == buffer->size;
 }
 
 bool rbuffer_is_empty(rbuffer *buffer) {
-    return buffer->available == buffer->size;
+    return buffer->available == 0;
 }
 
 #endif
