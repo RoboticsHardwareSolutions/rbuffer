@@ -21,7 +21,6 @@ extern "C" {
  * typical main.h in STM32 proj
  *
  */
-
 #if defined(RBUFFER_USE_CLASSIC_FIFO_BUFFER)
 
 /**
