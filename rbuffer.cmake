@@ -1,7 +1,3 @@
-message("Hello from rbuffer!")
-message("Full path to module: ${CMAKE_CURRENT_LIST_FILE}")
-message("Module located in directory: ${CMAKE_CURRENT_LIST_DIR}")
-
 if (MSVC OR MSYS OR MINGW)
     add_definitions(-DRBUFFER_FOR_WINDOWS)
 endif ()

@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-#include <stdint.h>
+#include "stdint.h"
 #include "string.h"
 #include "stdbool.h"
 
@@ -67,9 +67,9 @@ typedef struct
 
 #endif
 
-void rbuffer_create(rbuffer* buffer, uint8_t* memory, size_t size);
+int rbuffer_create(rbuffer* buffer, uint8_t* memory, size_t size);
 
-void rbuffer_clear(rbuffer* buffer);
+int rbuffer_clear(rbuffer* buffer);
 
 size_t rbuffer_push(rbuffer* buffer, uint8_t* data, size_t size);
 
