@@ -79,6 +79,7 @@ int rbuffer_clear(rbuffer* buffer)
     return 0;
 }
 
+
 size_t rbuffer_push(rbuffer* buffer, uint8_t* data, size_t size)
 {
     if (buffer == NULL || data == NULL)
@@ -144,28 +145,6 @@ size_t rbuffer_pop(rbuffer* buffer, uint8_t* data, size_t size)
     return size;
 }
 
-size_t rbuffer_push_isr(rbuffer* buffer, uint8_t* data, size_t size)
-{
-    if (buffer == NULL || data == NULL)
-        return 0;
-    enter_critical_section();
-    size_t push = rbuffer_push(buffer, data, size);
-    exit_critical_section();
-    return push;
-}
-
-size_t rbuffer_pop_isr(rbuffer* buffer, uint8_t* data, size_t size)
-{
-    if (buffer == NULL || data == NULL)
-        return 0;
-    else
-    {
-        enter_critical_section();
-        size_t pop = rbuffer_pop(buffer, data, size);
-        exit_critical_section();
-        return pop;
-    }
-}
 
 size_t rbuffer_data_available(rbuffer* buffer)
 {

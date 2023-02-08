@@ -21,29 +21,8 @@ extern "C" {
  * typical main.h in STM32 proj
  *
  */
+
 #if defined(RBUFFER_USE_CLASSIC_FIFO_BUFFER)
-
-/**
- *  Include here __disable_irq __enable_irq header
- *  typical main.h in STM32 proj
- *
- */
-
-static inline void enter_critical_section(void)
-{
-    /**
-     * add funtion which disable irq
-     * typical  __disable_irq();
-     */
-}
-
-static inline void exit_critical_section(void)
-{
-    /**
-     * add funtion which enable irq
-     * typical __enable_irq();
-     */
-}
 
 typedef struct
 {
@@ -75,10 +54,6 @@ size_t rbuffer_push(rbuffer* buffer, uint8_t* data, size_t size);
 
 size_t rbuffer_pop(rbuffer* buffer, uint8_t* data, size_t size);
 
-size_t rbuffer_push_isr(rbuffer* buffer, uint8_t* data, size_t size);
-
-size_t rbuffer_pop_isr(rbuffer* buffer, uint8_t* data, size_t size);
-
 size_t rbuffer_data_available(rbuffer* buffer);
 
 size_t rbuffer_free_space_available(rbuffer* buffer);
@@ -86,6 +61,15 @@ size_t rbuffer_free_space_available(rbuffer* buffer);
 bool rbuffer_is_full(rbuffer* buffer);
 
 bool rbuffer_is_empty(rbuffer* buffer);
+
+
+#if defined(RBUFFER_USE_XSTREAM_BUFFER)
+
+size_t rbuffer_push_isr(rbuffer* buffer, uint8_t* data, size_t size);
+
+size_t rbuffer_pop_isr(rbuffer* buffer, uint8_t* data, size_t size);
+
+#endif
 
 #ifdef __cplusplus
 }
