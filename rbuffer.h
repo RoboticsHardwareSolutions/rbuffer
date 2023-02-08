@@ -17,9 +17,6 @@ extern "C" {
  * -> add_definitions(-DRBUFFER_USE_XSTREAM_BUFFER)
  *
  * if you are using RBUFFER_USE_CLASSIC_FIFO_BUFFER
- * add include to rbuffer.h file wich consists __disable_irq() __enable_irq()
- * typical main.h in STM32 proj
- *
  */
 
 #if defined(RBUFFER_USE_CLASSIC_FIFO_BUFFER)
@@ -61,7 +58,6 @@ size_t rbuffer_free_space_available(rbuffer* buffer);
 bool rbuffer_is_full(rbuffer* buffer);
 
 bool rbuffer_is_empty(rbuffer* buffer);
-
 
 #if defined(RBUFFER_USE_XSTREAM_BUFFER)
 
