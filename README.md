@@ -1,6 +1,6 @@
 # rbuffer
 
-simple buffer wrapper 
+simple buffer wrapper (non curcilar buffer)
 
 ```
 include(rbuffer/rbuffer.cmake)
