@@ -79,7 +79,6 @@ int rbuffer_clear(rbuffer* buffer)
     return 0;
 }
 
-
 size_t rbuffer_push(rbuffer* buffer, uint8_t* data, size_t size)
 {
     if (buffer == NULL || data == NULL)
@@ -144,7 +143,6 @@ size_t rbuffer_pop(rbuffer* buffer, uint8_t* data, size_t size)
     buffer->available -= size;
     return size;
 }
-
 
 size_t rbuffer_data_available(rbuffer* buffer)
 {

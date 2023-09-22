@@ -23,21 +23,16 @@ if (MSVC OR MSYS OR MINGW OR APPLE OR UNIX)
     target_compile_definitions(${PROJECT_NAME}_test PUBLIC -DRBUFFER_USE_CLASSIC_FIFO_BUFFER)
 endif ()
 
-
-set(FILES_FOR_FORMATTING
-        crc/crc32.c crc/crc64.c crc/crc8.c crc/crc16.c crc/crc_poly.c
-        crc/crc32.h crc/crc64.h crc/crc8.h crc/crc16.h crc/crc_poly.h
-        test/test.c
-        )
+set(FORMATTING ${BUF_SOURCES} ${BUF_HEADERS} test/tests.c)
 
 # clang-format
 find_program(clang_format NAMES clang-format)
 if (NOT clang_format)
     message(STATUS "Could not locate clang-format")
 else ()
-    file(GLOB format_files ${FILES_FOR_FORMATTING})
+    file(GLOB format_files ${FORMATTING})
     message(STATUS "Using clang-format: ${clang_format}; files: ${format_files}")
-    add_custom_target(format_${PROJECT_NAME} COMMAND ${clang_format} -i -fallback-style=none -style=file --verbose ${format_files})
+    add_custom_target(${PROJECT_NAME}_format_code COMMAND ${clang_format} -i -fallback-style=none -style=file --verbose ${format_files})
 endif ()
 
 
