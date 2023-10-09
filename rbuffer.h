@@ -6,7 +6,7 @@ extern "C" {
 #endif
 
 #include "stdint.h"
-#include "string.h"
+#include "stdio.h"
 #include "stdbool.h"
 
 /**

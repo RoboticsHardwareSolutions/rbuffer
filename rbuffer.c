@@ -1,4 +1,5 @@
 #include "rbuffer.h"
+#include "string.h"
 
 #if defined(RBUFFER_USE_XSTREAM_BUFFER)
 
