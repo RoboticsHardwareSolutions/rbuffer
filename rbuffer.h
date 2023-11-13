@@ -51,6 +51,10 @@ size_t rbuffer_push(rbuffer* buffer, uint8_t* data, size_t size);
 
 size_t rbuffer_pop(rbuffer* buffer, uint8_t* data, size_t size);
 
+uint8_t* rbuffer_peek(rbuffer* buffer);
+
+uint8_t* rbuffer_peek_item(rbuffer* buffer, size_t index);
+
 size_t rbuffer_data_available(rbuffer* buffer);
 
 size_t rbuffer_free_space_available(rbuffer* buffer);
