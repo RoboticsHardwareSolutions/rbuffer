@@ -23,11 +23,28 @@ endif ()
 # Test runner executable testing the static library
 if (NOT ${CMAKE_SYSTEM_NAME} MATCHES Generic)
     add_executable(${PROJECT_NAME}_test
-            test/runit/src/runit.c
             ${BUF_SOURCES}
             test/tests.c)
 
-    target_include_directories(${PROJECT_NAME}_test PRIVATE ./ test/runit/src)
+    if (NOT TARGET runit)
+        if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/test/tmp/runit/CMakeLists.txt)
+            include(cmake/GitUtils.cmake)
+            file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/test/tmp)
+            git_clone(
+                    PROJECT_NAME runit
+                    GIT_URL https://github.com/RoboticsHardwareSolutions/runit.git
+                    GIT_BRANCH main
+                    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/test/tmp
+            )
+        endif ()
+        add_subdirectory(test/tmp/runit)
+    endif ()
+
+    target_link_libraries(${PROJECT_NAME}_test PRIVATE runit)
+
+    target_include_directories(${PROJECT_NAME}_test
+            PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR})
 
     if (MSVC OR MSYS OR MINGW OR APPLE OR UNIX)
         target_compile_definitions(${PROJECT_NAME}_test PUBLIC -DRBUFFER_USE_CLASSIC_FIFO_BUFFER)

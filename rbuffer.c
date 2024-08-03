@@ -145,30 +145,6 @@ size_t rbuffer_pop(rbuffer* buffer, uint8_t* data, size_t size)
     return size;
 }
 
-uint8_t* rbuffer_peek(rbuffer* buffer)
-{
-    if(buffer == NULL || buffer->available == 0)
-    {
-        return NULL;
-    }
-
-    return buffer->tail;
-
-}
-
-uint8_t* rbuffer_peek_item(rbuffer* buffer, size_t index)
-{
-    if(buffer == NULL || buffer->available == 0)
-    {
-        return NULL;
-    }
-
-    if (buffer->tail + index <= buffer->mem + buffer->size)
-        return buffer->tail;
-    else
-        return NULL;
-}
-
 size_t rbuffer_data_available(rbuffer* buffer)
 {
     if (buffer == NULL)
