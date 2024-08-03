@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.28)
 project(rbuffer
-        VERSION 0.1.0
-        LANGUAGES C
         DESCRIPTION
         "classic fifo")
 
-file(GLOB BUF_SOURCES "*.c")
+set(CMAKE_CXX_STANDARD 11)
+
+file(GLOB BUF_SOURCES "*.cpp")
 file(GLOB BUF_HEADERS "*.h")
 add_library(${PROJECT_NAME} STATIC ${BUF_SOURCES} ${BUF_HEADERS})
 
@@ -24,7 +24,7 @@ endif ()
 if (NOT ${CMAKE_SYSTEM_NAME} MATCHES Generic)
     add_executable(${PROJECT_NAME}_test
             ${BUF_SOURCES}
-            test/tests.c)
+            test/tests.cpp)
 
     if (NOT TARGET runit)
         if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/test/tmp/runit/CMakeLists.txt)
@@ -55,7 +55,7 @@ if (NOT ${CMAKE_SYSTEM_NAME} MATCHES Generic)
 endif ()
 
 
-set(FORMATTING ${BUF_SOURCES} ${BUF_HEADERS} test/tests.c)
+set(FORMATTING ${BUF_SOURCES} ${BUF_HEADERS} test/tests.cpp)
 
 # clang-format
 find_program(clang_format NAMES clang-format)
