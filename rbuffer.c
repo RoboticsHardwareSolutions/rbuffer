@@ -3,37 +3,36 @@
 
 #if defined(RBUFFER_USE_XSTREAM_BUFFER)
 
-#    include "FreeRTOS.h"
-#    include "stream_buffer.h"
+#    include <cmsis_compiler.h>
 
-void rbuffer_create(rbuffer* buffer, uint8_t* memory, size_t size)
+int rbuffer_create(rbuffer* buffer, uint8_t* memory, size_t size)
 {
     buffer->handle = xStreamBufferCreateStatic(size, 1, memory, &buffer->xstream);
+    return 0;
 }
 
-void rbuffer_clear(rbuffer* buffer)
+int rbuffer_clear(rbuffer* buffer)
 {
     xStreamBufferReset(buffer->handle);
+    return 0;
 }
 
 size_t rbuffer_push(rbuffer* buffer, uint8_t* data, size_t size)
 {
+    if(__get_IPSR() != 0U)
+    {
+        return xStreamBufferSendFromISR(buffer->handle, data, size, NULL);
+    }
     return xStreamBufferSend(buffer->handle, data, size, 0);
 }
 
 size_t rbuffer_pop(rbuffer* buffer, uint8_t* data, size_t size)
 {
+    if(__get_IPSR() != 0U)
+    {
+        return xStreamBufferReceiveFromISR(buffer->handle, data, size, NULL);
+    }
     return xStreamBufferReceive(buffer->handle, data, size, 0);
-}
-
-size_t rbuffer_push_isr(rbuffer* buffer, uint8_t* data, size_t size)
-{
-    return xStreamBufferSendFromISR(buffer->handle, data, size, NULL);
-}
-
-size_t rbuffer_pop_isr(rbuffer* buffer, uint8_t* data, size_t size)
-{
-    return xStreamBufferReceiveFromISR(buffer->handle, data, size, NULL);
 }
 
 size_t rbuffer_data_available(rbuffer* buffer)
