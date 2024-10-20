@@ -17,6 +17,11 @@ target_include_directories(${PROJECT_NAME}
 
 if (MSVC OR MSYS OR MINGW OR APPLE OR UNIX)
     target_compile_definitions(${PROJECT_NAME} PUBLIC -DRBUFFER_USE_CLASSIC_FIFO_BUFFER)
+elseif (${CMAKE_SYSTEM_NAME} MATCHES Generic)
+    if (TARGET freertos_kernel)
+        target_compile_definitions(${PROJECT_NAME} PUBLIC -DRBUFFER_USE_XSTREAM_BUFFER)
+        target_link_libraries(${PROJECT_NAME} PUBLIC freertos_kernel)
+    endif ()
 endif ()
 
 
