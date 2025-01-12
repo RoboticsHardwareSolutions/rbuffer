@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.24)
 project(rbuffer
         VERSION 0.1.0
         LANGUAGES C
         DESCRIPTION
-        "classic fifo")
+        "classic buffer implementation")
 
 file(GLOB BUF_SOURCES "*.c")
 file(GLOB BUF_HEADERS "*.h")
@@ -27,30 +27,18 @@ endif ()
 
 # Test runner executable testing the static library
 if (NOT ${CMAKE_SYSTEM_NAME} MATCHES Generic)
-    add_executable(${PROJECT_NAME}_test
-            ${BUF_SOURCES}
-            test/tests.c)
+    add_executable(${PROJECT_NAME}_test test/tests.c)
 
     if (NOT TARGET runit)
-        if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/test/tmp/runit/CMakeLists.txt)
-            include(cmake/GitUtils.cmake)
-            file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/test/tmp)
-            git_clone(
-                    PROJECT_NAME runit
-                    GIT_URL https://github.com/RoboticsHardwareSolutions/runit.git
-                    GIT_BRANCH main
-                    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/test/tmp
-            )
-        endif ()
-        add_subdirectory(test/tmp/runit)
+        include(FetchContent)
+        FetchContent_Declare(
+                runit
+                URL https://github.com/RoboticsHardwareSolutions/runit/archive/refs/heads/main.zip
+        )
+        FetchContent_MakeAvailable(runit)
     endif ()
 
-    target_link_libraries(${PROJECT_NAME}_test PRIVATE runit)
-
-    target_include_directories(${PROJECT_NAME}_test
-            PUBLIC
-            ${CMAKE_CURRENT_SOURCE_DIR})
-
+    target_link_libraries(${PROJECT_NAME}_test PRIVATE rbuffer runit)
     if (MSVC OR MSYS OR MINGW OR APPLE OR UNIX)
         target_compile_definitions(${PROJECT_NAME}_test PUBLIC -DRBUFFER_USE_CLASSIC_FIFO_BUFFER)
     endif ()
@@ -68,6 +56,6 @@ if (NOT clang_format)
     message(STATUS "Could not locate clang-format")
 else ()
     file(GLOB format_files ${FORMATTING})
-    add_custom_target(${PROJECT_NAME}_format_code COMMAND ${clang_format} -i -fallback-style=none -style=file --verbose ${format_files})
+    add_custom_target(${PROJECT_NAME}_format COMMAND ${clang_format} -i -fallback-style=none -style=file --verbose ${format_files})
 endif ()
 

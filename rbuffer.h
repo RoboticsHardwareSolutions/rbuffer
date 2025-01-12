@@ -1,10 +1,4 @@
-#ifndef __RBUFFER_H
-#define __RBUFFER_H
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
+#pragma once
 #include "stdint.h"
 #include "stdio.h"
 #include "stdbool.h"
@@ -60,8 +54,4 @@ bool rbuffer_is_full(rbuffer* buffer);
 
 bool rbuffer_is_empty(rbuffer* buffer);
 
-#ifdef __cplusplus
-}
-#endif
 
-#endif
