@@ -33,7 +33,8 @@ if (NOT ${CMAKE_SYSTEM_NAME} MATCHES Generic)
         include(FetchContent)
         FetchContent_Declare(
                 runit
-                URL https://github.com/RoboticsHardwareSolutions/runit/archive/refs/heads/main.zip
+                GIT_REPOSITORY https://github.com/RoboticsHardwareSolutions/runit.git
+                GIT_TAG main
         )
         FetchContent_MakeAvailable(runit)
     endif ()
