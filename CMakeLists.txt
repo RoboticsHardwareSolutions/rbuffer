@@ -25,7 +25,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES Generic)
 endif ()
 
 
-# Test runner executable testing the static library
+#################### TEST SECTION #######################
 if (NOT ${CMAKE_SYSTEM_NAME} MATCHES Generic)
     add_executable(${PROJECT_NAME}_test test/tests.c)
 
@@ -48,15 +48,18 @@ if (NOT ${CMAKE_SYSTEM_NAME} MATCHES Generic)
     add_test(NAME ${PROJECT_NAME}_test COMMAND ${PROJECT_NAME}_test)
 endif ()
 
+#################### FORMAT SECTION #######################
+include(FetchContent)
+FetchContent_Declare(
+        rlibhelper
+        GIT_REPOSITORY https://github.com/RoboticsHardwareSolutions/rlibhelper.git
+        GIT_TAG main
+)
+FetchContent_MakeAvailable(rlibhelper)
+set(FILES_FOR_FORMATTING
+        rbuffer.c rbuffer.h test/tests.c
+)
+include(${CMAKE_BINARY_DIR}/_deps/rlibhelper-src/format.cmake)
+format_files(${PROJECT_NAME} SOURCES ${FILES_FOR_FORMATTING})
 
-set(FORMATTING ${BUF_SOURCES} ${BUF_HEADERS} test/tests.c)
-
-# clang-format
-find_program(clang_format NAMES clang-format)
-if (NOT clang_format)
-    message(STATUS "Could not locate clang-format")
-else ()
-    file(GLOB format_files ${FORMATTING})
-    add_custom_target(${PROJECT_NAME}_format COMMAND ${clang_format} -i -fallback-style=none -style=file --verbose ${format_files})
-endif ()
 

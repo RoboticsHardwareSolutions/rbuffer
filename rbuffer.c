@@ -19,7 +19,7 @@ int rbuffer_clear(rbuffer* buffer)
 
 size_t rbuffer_push(rbuffer* buffer, uint8_t* data, size_t size)
 {
-    if(__get_IPSR() != 0U)
+    if (__get_IPSR() != 0U)
     {
         return xStreamBufferSendFromISR(buffer->handle, data, size, NULL);
     }
@@ -28,7 +28,7 @@ size_t rbuffer_push(rbuffer* buffer, uint8_t* data, size_t size)
 
 size_t rbuffer_pop(rbuffer* buffer, uint8_t* data, size_t size)
 {
-    if(__get_IPSR() != 0U)
+    if (__get_IPSR() != 0U)
     {
         return xStreamBufferReceiveFromISR(buffer->handle, data, size, NULL);
     }

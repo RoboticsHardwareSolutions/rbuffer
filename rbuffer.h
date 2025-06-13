@@ -13,7 +13,6 @@
  * if you are using RBUFFER_USE_CLASSIC_FIFO_BUFFER
  */
 
-
 #if defined(RBUFFER_USE_XSTREAM_BUFFER)
 #    include "FreeRTOS.h"
 #    include "stream_buffer.h"
@@ -37,7 +36,6 @@ typedef struct
 
 #endif
 
-
 int rbuffer_create(rbuffer* buffer, uint8_t* memory, size_t size);
 
 int rbuffer_clear(rbuffer* buffer);
@@ -53,5 +51,3 @@ size_t rbuffer_free_space_available(rbuffer* buffer);
 bool rbuffer_is_full(rbuffer* buffer);
 
 bool rbuffer_is_empty(rbuffer* buffer);
-
-
