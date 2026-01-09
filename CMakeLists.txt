@@ -59,7 +59,13 @@ FetchContent_MakeAvailable(rlibhelper)
 set(FILES_FOR_FORMATTING
         rbuffer.c rbuffer.h test/tests.c
 )
-include(${CMAKE_BINARY_DIR}/_deps/rlibhelper-src/format.cmake)
+if (EXISTS "${rlibhelper_SOURCE_DIR}/format.cmake")
+    include(${rlibhelper_SOURCE_DIR}/format.cmake)
+else ()
+    message(WARNING "format.cmake file not found")
+endif ()
 format_files(${PROJECT_NAME} SOURCES ${FILES_FOR_FORMATTING})
+
+
 
 
